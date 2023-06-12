@@ -57,7 +57,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Urmila
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -120,6 +120,13 @@ function ResponsiveAppBar() {
               <Button sx={{ my: 2, color: 'white', display: 'block' }}>
                 Home
               </Button>
+              <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                About
+              </Button>
+              <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                Blog
+              </Button>
+
         
           </Box>
 
