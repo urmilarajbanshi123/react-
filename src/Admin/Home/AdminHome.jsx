@@ -14,16 +14,21 @@ import { useNavigate } from "react-router-dom";
 export default function AdminHome() {
   const [blog, setBlog] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [isDeleting, setIsDeleting]= React.useState(true);
+  const [id, setId]= React.useState(null);
   const navigate = useNavigate();
   const getBlog = async () => {
     let res = await axios.get(`${baseUrl}blog_project`);
-    setBlog(res.data);
+    setBlog(res.data.reverse());
     setLoading(false);
   };
 
     const deleteBlog = async(id)=>{
+      setId(id);
+      setIsDeleting(true);
       await axios.delete(`${baseUrl}blog_project/${id}`);
-      alert("Deleted successfully");
+      getBlog();
+      setIsDeleting(false);
     }
   React.useEffect(() => {
     getBlog();
@@ -87,7 +92,9 @@ export default function AdminHome() {
                   <Button onClick={()=>navigate(`/blog/${blog.id}`)}
                   size="small">Edit</Button>
                   <Button onClick={()=>deleteBlog(blog.id)}
-                   color="warning" size="small">Delete</Button>
+                   color="warning" size="small">
+                    {id==blog.id && isDeleting? "Deleting .....": "Delete"}
+                   </Button>
                 </CardActions>
 
 

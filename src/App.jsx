@@ -10,6 +10,8 @@ import Blog from './User/Blog/Blog';
 import SingleBlog from './User/Blog/SingleBlog';
 import AdminLayout from './Admin/Layout';
 import AdminHome from './Admin/Home/AdminHome';
+import AddBlog from './User/Blog/AddBlog';
+import EditBlog from './User/Blog/EditBlog';
 
 
 
@@ -25,6 +27,8 @@ function App() {
       </Route>
       <Route path='/admin/' element={<AdminLayout/>}>
         <Route path="home" element={<AdminHome/>}/>
+        <Route path='add' element={<AddBlog/>}/>
+        <Route path='edit/:id' element={<EditBlog/>}/>
       </Route>
     </Routes>
   </Router>
