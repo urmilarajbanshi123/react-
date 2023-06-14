@@ -7,6 +7,9 @@ import UserLayout from './User/UserLayout';
 import Home from './User/Home/Home';
 import About from './User/AboutUs/About';
 import Blog from './User/Blog/Blog';
+import SingleBlog from './User/Blog/SingleBlog';
+import AdminLayout from './Admin/Layout';
+import AdminHome from './Admin/Home/AdminHome';
 
 
 
@@ -18,6 +21,10 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/blog" element={<Blog/>}/>
+        <Route path="/blog/:id" element={<SingleBlog/>}/>
+      </Route>
+      <Route path='/admin/' element={<AdminLayout/>}>
+        <Route path="home" element={<AdminHome/>}/>
       </Route>
     </Routes>
   </Router>

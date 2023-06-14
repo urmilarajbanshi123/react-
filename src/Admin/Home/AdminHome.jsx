@@ -11,7 +11,7 @@ import { Margin } from "@mui/icons-material";
 import { Box, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function AdminHome() {
   const [blog, setBlog] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
@@ -21,6 +21,10 @@ export default function Home() {
     setLoading(false);
   };
 
+    const deleteBlog = async(id)=>{
+      await axios.delete(`${baseUrl}blog_project/${id}`);
+      alert("Deleted successfully");
+    }
   React.useEffect(() => {
     getBlog();
   }, []);
@@ -81,8 +85,15 @@ export default function Home() {
                 </CardContent>
                 <CardActions>
                   <Button onClick={()=>navigate(`/blog/${blog.id}`)}
-                  size="small">Learn More</Button>
+                  size="small">Edit</Button>
+                  <Button onClick={()=>deleteBlog(blog.id)}
+                   color="warning" size="small">Delete</Button>
                 </CardActions>
+
+
+
+
+
               </Card>
             );
           })}
