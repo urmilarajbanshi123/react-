@@ -12,10 +12,15 @@ import { Box, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminHome() {
+
+  const Navigate=useNavigate(); 
+
+
   const [blog, setBlog] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [isDeleting, setIsDeleting]= React.useState(true);
   const [id, setId]= React.useState(null);
+
   const navigate = useNavigate();
   const getBlog = async () => {
     let res = await axios.get(`${baseUrl}blog_project`);
@@ -89,7 +94,7 @@ export default function AdminHome() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button onClick={()=>navigate(`/blog/${blog.id}`)}
+                  <Button onClick={()=>navigate(`/admin/edit/${blog.id}`)}
                   size="small">Edit</Button>
                   <Button onClick={()=>deleteBlog(blog.id)}
                    color="warning" size="small">
