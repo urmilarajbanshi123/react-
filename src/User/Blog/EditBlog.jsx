@@ -9,7 +9,12 @@ import { baseUrl } from "../../Globals/Config";
 export default function EditBlog() {
   const navigate = useNavigate();
 
-  const [singleBlog, setSingleBlog] = React.useState({});
+  const [singleBlog, setSingleBlog] = React.useState({
+    title: "",
+    author: "",
+    image: "",
+    description: "",
+  });
   const getSingleBlog = async () => {
     let res = await axios.get(`${baseUrl}/blog_project/${id}`);
     setSingleBlog(res.data);
@@ -20,23 +25,11 @@ export default function EditBlog() {
 
   const { id } = useParams();
 
-  const [formData, setFormData] = React.useState({
-    title: "",
-    author: "",
-    image: "",
-    description: "",
-  });
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let formsData = {
-      title: formData.title || singleBlog.title,
-      author: formData.author || singleBlog.author,
-      description: formData.description || singleBlog.description,
-      image: formData.image || singleBlog.image,
-    };
-    console.log(formData);
-    await axios.put(`${baseUrl}blog_project/${id}`, formsData);
+    await axios.put(`${baseUrl}blog_project/${id}`, singleBlog);
     navigate("/admin/home");
   };
 
@@ -48,32 +41,28 @@ export default function EditBlog() {
       onSubmit={handleSubmit}
     >
       <Input
-        placeholder={singleBlog.title}
         type="text"
         id="filled-basic"
         variant="filled"
         name="title"
-        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-        value={formData.title}
+        onChange={(e) => setSingleBlog({ ...singleBlog, title: e.target.value })}
+        value={singleBlog.title}
       />
       <Input
-        placeholder={singleBlog.image}
         type="url"
         id="filled-basic"
         variant="filled"
         name="image"
-        onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-        value={formData.image}
-        defaultValue={singleBlog.image}
+        onChange={(e) => setSingleBlog({ ...singleBlog, image: e.target.value })}
+        value={singleBlog.image}
       />
       <Input
         placeholder={singleBlog.author}
         id="filled-basic"
         variant="filled"
         name="author"
-        onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-        value={formData.author}
-        defaultValue={singleBlog.author}
+        onChange={(e) => setSingleBlog({ ...singleBlog, author: e.target.value })}
+        value={singleBlog.author}
       />
       <Input
         placeholder={singleBlog.description}
@@ -82,10 +71,9 @@ export default function EditBlog() {
         variant="filled"
         name="description"
         onChange={(e) =>
-          setFormData({ ...formData, description: e.target.value })
+          setSingleBlog({ ...singleBlog, description: e.target.value })
         }
-        value={formData.description}
-        defaultValue={singleBlog.description}
+        value={singleBlog.description}
       />
       <Button type="submit" variant="contained">
         Edit blog
