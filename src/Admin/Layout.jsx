@@ -17,7 +17,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
-import { Add, Home } from '@mui/icons-material';
+import { Add, Home, Logout } from '@mui/icons-material';
+import { CircularProgress } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -28,6 +29,17 @@ function AdminLayout(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const [loader, setPreLoader]=React.useState(true);
+  React.useEffect(()=>{
+    let token=localStorage.getItem("token");
+    if(!token){
+    setPreLoader(false);
+      location.replace("/login");
+    }
+    setPreLoader(false);
+  });
+
+
     const Navigate=useNavigate();
   const drawer = (
     <div>
@@ -53,6 +65,21 @@ function AdminLayout(props) {
               primary="Add"/>
             </ListItemButton>
           </ListItem>
+
+          
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <Logout/>
+              </ListItemIcon>
+              <ListItemText 
+                  onClick={()=>{
+                localStorage.removeItem("token");
+                Navigate("/login");
+              } }
+              primary="Logout"/>
+            </ListItemButton>
+          </ListItem>
        
       </List>
       <Divider />
@@ -61,9 +88,25 @@ function AdminLayout(props) {
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
+  if (loader) {
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "60vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <div>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -78,12 +121,12 @@ function AdminLayout(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            Mechi Blogs
           </Typography>
         </Toolbar>
       </AppBar>
@@ -102,8 +145,11 @@ function AdminLayout(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -111,8 +157,11 @@ function AdminLayout(props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
           open
         >
@@ -121,15 +170,19 @@ function AdminLayout(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
       >
         <Toolbar />
-       <Outlet/>
+        <Outlet />
       </Box>
     </Box>
-  );
+  </div>
+);
 }
-
 AdminLayout.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
